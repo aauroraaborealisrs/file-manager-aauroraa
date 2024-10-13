@@ -1,6 +1,7 @@
 import { chdir } from 'process';
 import { homedir } from 'os';
-import { up, cd } from './navigation.js';  
+import { up, cd } from './modules/navigation.js';  
+import {ls} from './modules/ls.js';
 
 const parseArgs = () => {
     const args = process.argv.slice(2);
@@ -54,6 +55,9 @@ process.stdin.on('data', async (data) => {
                     } else {
                         console.log('Invalid input: path is missing');
                     }
+                    break;
+                case 'ls':
+                    await ls();
                     break;
                 default:
                     console.log('Command not implemented yet.');
