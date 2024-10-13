@@ -3,6 +3,8 @@ import { homedir } from 'os';
 import { up, cd } from './modules/navigation/navigation.js';  
 import {ls} from './modules/navigation/ls.js';
 import { cat } from './modules/basic_operations/cat.js';
+import { add } from './modules/basic_operations/add.js';
+import { rn } from './modules/basic_operations/rename.js';
 
 const parseArgs = () => {
     const args = process.argv.slice(2);
@@ -44,7 +46,8 @@ process.stdin.on('data', async (data) => {
         console.log('Invalid input');
     } else {
         try {
-            const [command, ...args] = input.split(' ');
+            //const [command, ...args] = input.split(' ');
+            const [command, ...args] = input.match(/(?:[^\s"]+|"[^"]*")+/g).map(arg => arg.replace(/"/g, ''));
 
             switch (command) {
                 case 'up':
@@ -65,6 +68,20 @@ process.stdin.on('data', async (data) => {
                         cat(args.join(' '));
                     } else {
                         console.log('Invalid input: path is missing');
+                    }
+                    break;
+                case 'add':
+                    if (args.length > 0) {
+                        await add(args[0]);
+                    } else {
+                        console.log('Invalid input: file name is missing');
+                    }
+                    break;
+                case 'rn':
+                    if (args.length === 2) {
+                        await rn(args[0], args[1]);
+                    } else {
+                        console.log('Invalid input: path or new file name is missing');
                     }
                     break;
                 default:
