@@ -8,6 +8,10 @@ import { rn } from './modules/basic_operations/rename.js';
 import { cp } from './modules/basic_operations/copy.js';
 import { mv } from './modules/basic_operations/move.js';
 import { rm } from './modules/basic_operations/remove.js';
+import { getEOL } from './modules/os/eol.js';
+import {getSystemUsername, getHomeDir, getArchitecture} from './modules/os/os.js';
+import {getCPUs} from './modules/os/cpu.js';
+import { calculateHash } from './modules/hash/hash.js';
 
 const parseArgs = () => {
     const args = process.argv.slice(2);
@@ -106,6 +110,33 @@ process.stdin.on('data', async (data) => {
                         await rm(args.join(' ')); 
                     } else {
                         console.log('Invalid input: path is missing');
+                    }
+                    break;
+                case 'os':
+                    switch (args[0]) {
+                        case '--EOL':
+                            getEOL();
+                            break;
+                        case '--cpus':
+                            getCPUs();
+                            break;
+                        case '--homedir':
+                            getHomeDir();
+                            break;
+                        case '--username':
+                            getSystemUsername();
+                            break;
+                        case '--architecture':
+                            getArchitecture();
+                            break;
+                        default:
+                            console.log('Invalid OS command');
+                    }
+                case 'hash':
+                    if (args.length > 0) {
+                        await calculateHash(args.join(' '));
+                    } else {
+                        console.log('Invalid input: path to file is missing');
                     }
                     break;
                 default:
