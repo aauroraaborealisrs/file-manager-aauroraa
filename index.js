@@ -5,6 +5,8 @@ import {ls} from './modules/navigation/ls.js';
 import { cat } from './modules/basic_operations/cat.js';
 import { add } from './modules/basic_operations/add.js';
 import { rn } from './modules/basic_operations/rename.js';
+import { cp } from './modules/basic_operations/copy.js';
+import { mv } from './modules/basic_operations/move.js';
 
 const parseArgs = () => {
     const args = process.argv.slice(2);
@@ -82,6 +84,20 @@ process.stdin.on('data', async (data) => {
                         await rn(args[0], args[1]);
                     } else {
                         console.log('Invalid input: path or new file name is missing');
+                    }
+                    break;
+                case 'cp':
+                    if (args.length === 2) {
+                        await cp(args[0], args[1]);
+                    } else {
+                        console.log('Invalid input: source file or destination directory is missing');
+                    }
+                    break;
+                case 'mv':
+                    if (args.length === 2) {
+                        await mv(args[0], args[1]);
+                    } else {
+                        console.log('Invalid input: source file or destination directory is missing');
                     }
                     break;
                 default:
