@@ -19,6 +19,12 @@ const parseArgs = () => {
     const args = process.argv.slice(2);
     const username = args.find(arg => arg.startsWith('--username='))?.split('=')[1] || 'guest';
     console.log(`Welcome to the File Manager, ${username}!`);
+
+    const colorGreen = '\x1b[32m';
+    const colorReset = '\x1b[0m';
+    
+    console.log(`${colorGreen}Use double quotes " for paths${colorReset}`);
+
     return username;
 };
 
@@ -54,7 +60,6 @@ process.stdin.on('data', async (data) => {
     } else {
         try {
             const [command, ...args] = input.match(/(?:[^\s"]+|"[^"]*")+/g).map(arg => arg.replace(/"/g, ''));
-
             switch (command) {
                 case 'up':
                     up();

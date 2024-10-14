@@ -28,7 +28,7 @@ export const mv = async (pathToFile, pathToNewDirectory) => {
         });
 
         writeStream.on('finish', async () => {
-            console.log(`File copied to ${destinationPath} successfully.`);
+            console.log(`File moved to ${destinationPath} successfully.`);
             try {
                 await unlink(filePath);
             } catch (unlinkError) {
